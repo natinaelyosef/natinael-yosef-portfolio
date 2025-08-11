@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Natinael Yosef — Full-stack developer portfolio." />
+  <meta property="og:title" content="Natinael Yosef — Portfolio" />
+  <meta property="og:description" content="Full-stack developer portfolio." />
+  <meta property="og:image" content="./assets/profile.jpg" />
+  <title>Natinael Yosef — Portfolio</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: { DEFAULT: '#1f3b6f', light: '#2b5bb0' },
+            darkbg: '#0f1720',
+            panel: '#0b1220',
+            muted: '#9aa4b2'
+          },
+          animation: {
+            fadeInUp: 'fadeInUp 0.6s ease-out forwards',
+            float: 'float 6s ease-in-out infinite',
+          },
+          keyframes: {
+            fadeInUp: {
+              '0%': { opacity: 0, transform: 'translateY(20px)' },
+              '100%': { opacity: 1, transform: 'translateY(0)' },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-10px)' },
+            },
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+
+  <style>
+    body {
+      font-family: Inter, ui-sans-serif, system-ui;
+      scroll-behavior: smooth;
+      background-color: white;
+      color: #1e293b; /* Tailwind slate-800 */
+    }
+    .dark body {
+      background-color: #0f1720;
+      color: #e0e7ff; /* Tailwind slate-100 */
+    }
+    .glass {
+      background: rgba(10,14,20, 0.6);
+      border: 1px solid rgba(255,255,255, 0.06);
+      backdrop-filter: blur(7px);
+      transition: background 0.3s ease;
+    }
+    .ring-soft {
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+    }
+    .round-photo {
+      width: 360px;
+      height: 360px;
+      object-fit: cover;
+      border-radius: 9999px;
+      border: 6px solid rgba(255,255,255,0.05);
+      box-shadow: 0 30px 60px rgba(2,6,23,0.7);
+      transition: transform 0.3s ease;
+    }
+    .round-photo:hover {
+      transform: scale(1.03) translateY(-5px);
+    }
+    @media (max-width: 1024px) {
+      .round-photo {
+        width: 260px;
+        height: 260px;
+      }
+    }
+    .btn {
+      transition: all 0.2s ease;
+    }
+    .btn:hover, .btn:focus {
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.25);
+      outline: none;
+    }
+    .mobile-nav {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(15,23,32,0.98);
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.3s ease;
+    }
+    .mobile-nav a {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: #a5b4fc; /* Indigo 300 */
+      transition: color 0.3s ease;
+    }
+    .mobile-nav a:hover,
+    .mobile-nav a:focus {
+      color: #6366f1; /* Indigo 500 */
+    }
+    .bg-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.15;
+      z-index: -1;
+    }
+    .blob1 {
+      width: 300px;
+      height: 300px;
+      background: #3b82f6;
+      top: -50px;
+      left: -50px;
+      animation: float 8s ease-in-out infinite;
+    }
+    .blob2 {
+      width: 400px;
+      height: 400px;
+      background: #8b5cf6;
+      bottom: -80px;
+      right: -80px;
+      animation: float 10s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body class="min-h-screen relative bg-white text-gray-800 dark:bg-darkbg dark:text-gray-100">
+
+  <!-- Background blobs -->
+  <div class="bg-blob blob1" aria-hidden="true"></div>
+  <div class="bg-blob blob2" aria-hidden="true"></div>
+
+  <!-- NAVIGATION -->
+  <header class="w-full py-4 border-b border-gray-300 dark:border-white/10 sticky top-0 bg-white/80 dark:bg-darkbg/80 z-40 backdrop-blur" role="banner">
+    <div class="max-w-6xl mx-auto px-6 flex items-center justify-between">
+      <h1 class="text-xl font-semibold" aria-label="Site title">Portfolio</h1>
+      <nav class="space-x-6 text-sm hidden md:flex items-center" role="navigation" aria-label="Primary navigation">
+        <a href="#home" class="hover:text-blue-600 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400">Home</a>
+        <a href="#about" class="hover:text-blue-600 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400">About</a>
+        <a href="#skills" class="hover:text-blue-600 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400">Skills</a>
+        <a href="#projects" class="hover:text-blue-600 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400">Projects</a>
+        <a href="#contact" class="hover:text-blue-600 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400">Contact</a>
+        <a href="https://drive.google.com/file/d/1EAUxbjdbjmZfxE7jORCBQc0Jkyvh6g39/view?usp=drive_link" download class="ml-3 inline-block bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded text-sm font-medium btn text-white focus:outline-none focus:ring-2 focus:ring-blue-400" aria-label="Download CV">Download CV</a>
+        <button id="theme-toggle" class="ml-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-400" aria-label="Toggle dark mode">🌙</button>
+      </nav>
+      <button id="nav-toggle" aria-label="Open mobile menu" class="md:hidden text-2xl focus:outline-none focus:ring-2 focus:ring-blue-400">☰</button>
+    </div>
+
+    <!-- Mobile Nav -->
+    <nav id="mobile-nav" class="mobile-nav hidden" role="navigation" aria-label="Mobile navigation" aria-hidden="true">
+      <button id="nav-close" aria-label="Close mobile menu" class="absolute top-6 right-8 text-3xl focus:outline-none focus:ring-2 focus:ring-blue-400">×</button>
+      <a href="#home" onclick="closeMobileNav()" tabindex="0">Home</a>
+      <a href="#about" onclick="closeMobileNav()" tabindex="0">About</a>
+      <a href="#skills" onclick="closeMobileNav()" tabindex="0">Skills</a>
+      <a href="#projects" onclick="closeMobileNav()" tabindex="0">Projects</a>
+      <a href="#contact" onclick="closeMobileNav()" tabindex="0">Contact</a>
+      <a href="https://drive.google.com/file/d/1EAUxbjdbjmZfxE7jORCBQc0Jkyvh6g39/view?usp=drive_link" download class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded btn focus:outline-none focus:ring-2 focus:ring-blue-400" aria-label="Download CV">Download CV</a>
+      <button id="theme-toggle-mobile" aria-label="Toggle dark mode" class="mt-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-400">🌙</button>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section id="home" class="min-h-screen flex flex-col justify-center">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col lg:flex-row items-center gap-12 h-full">
+      <div class="flex-shrink-0 flex justify-center lg:justify-start animate-fadeInUp" style="animation-delay: 0.1s;">
+        <div class="round-photo overflow-hidden ring-soft" role="img" aria-label="Natinael Yosef profile photo">
+          <img src="./images/photo.jpg" alt="Natinael Yosef" class="w-full h-full object-cover" loading="lazy" />
+        </div>
+      </div>
+      <div class="flex-1 animate-fadeInUp" style="animation-delay: 0.2s;">
+        <h2 class="text-5xl font-extrabold mb-2">Natinael Yosef Adisu</h2>
+        <p class="text-xl text-blue-500 dark:text-sky-400 mb-4" aria-live="polite" aria-atomic="true">
+          <span id="typed" class="font-medium"></span><span class="animate-pulse" aria-hidden="true">|</span>
+        </p>
+        <p class="max-w-2xl leading-relaxed mb-6">
+          Passionate full-stack developer with expertise in modern web technologies.
+          I create beautiful, functional, and user-friendly applications that solve real-world problems.
+        </p>
+        <div class="flex flex-wrap gap-3 mb-6">
+          <a href="https://github.com/natinaelyosef" target="_blank" rel="noopener" class="px-4 py-2 border rounded-md glass btn focus:outline-none focus:ring-2 focus:ring-blue-400" aria-label="GitHub Profile">GitHub</a>
+          <a href="https://www.linkedin.com/in/natinael-yosef" target="_blank" rel="noopener" class="px-4 py-2 border rounded-md glass btn focus:outline-none focus:ring-2 focus:ring-blue-400" aria-label="LinkedIn Profile">LinkedIn</a>
+          <a href="mailto:natyyosefadisu@gmail.com" class="px-4 py-2 border rounded-md glass btn focus:outline-none focus:ring-2 focus:ring-blue-400" aria-label="Send Email">Email</a>
+        </div>
+        <a href="https://drive.google.com/file/d/1EAUxbjdbjmZfxE7jORCBQc0Jkyvh6g39/view?usp=drive_link" download class="bg-blue-600 hover:bg-blue-700 px-5 py-3 rounded-md font-medium shadow btn text-white focus:outline-none focus:ring-2 focus:ring-blue-400" aria-label="Download CV">↓ Download CV</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT ME -->
+  <section id="about" class="min-h-screen flex flex-col md:flex-row">
+    <!-- Profile Image Full Screen Side -->
+    <div class="w-full md:w-1/2 h-72 md:h-screen flex justify-center items-center bg-gradient-to-tr from-blue-100 to-blue-300 dark:from-panel dark:to-darkbg">
+      <img src="./images/naty-photo.jpg" alt="Natinael Yosef" class="w-full h-full object-cover shadow-xl" loading="lazy" />
+    </div>
+    <!-- About Text Full Screen Side -->
+    <div class="w-full md:w-1/2 flex flex-col justify-center px-8 py-12 md:py-0 h-72 md:h-screen bg-white dark:bg-panel">
+      <h2 class="text-4xl font-bold mb-4">About Me</h2>
+      <p class="text-blue-600 dark:text-sky-400 text-2xl font-semibold mb-2">Developer</p>
+      <p class="text-slate-700 dark:text-slate-300 text-lg mb-4 font-medium">
+        I am a passionate Software Engineer specializing in both front-end and back-end web development.
+      </p>
+      <p class="text-slate-600 dark:text-slate-400 text-base leading-relaxed mb-3">
+        I craft clean, efficient code and deliver pixel-perfect designs. My focus is on building interactive, engaging websites using modern web animations and best practices.
+      </p>
+      <p class="text-slate-600 dark:text-slate-400 text-base leading-relaxed mb-3">
+        I believe that responsive design is essential for accessibility, ensuring your website looks and works great on any device.
+      </p>
+      <p class="text-slate-600 dark:text-slate-400 text-base leading-relaxed">
+        My goal is to create user experiences that are not only visually appealing but also intuitive and enjoyable. I am always eager to learn new technologies and collaborate on exciting projects.
+      </p>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="min-h-screen flex items-center justify-center py-16">
+    <div class="w-full max-w-6xl mx-auto px-6 flex flex-col items-center">
+      <h2 class="text-4xl font-bold mb-4 text-center">Skills &amp; Technologies</h2>
+      <p class="mb-10 text-lg text-gray-600 dark:text-slate-400 text-center max-w-2xl">
+        I work with a wide range of modern technologies and frameworks to build robust, scalable, and beautiful web applications.
+      </p>
+      <div class="bg-gray-100 dark:bg-panel glass rounded-xl p-10 ring-soft flex flex-col items-center w-full">
+        <div class="swiper mySwiper w-full" aria-label="Technologies carousel" role="region">
+          <div class="swiper-wrapper">
+            <article class="swiper-slide flex flex-col items-center gap-4 p-6" tabindex="0" aria-label="MERN Stack">
+              <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-pink-400 to-purple-500 flex items-center justify-center text-2xl font-bold">RE</div>
+              <h3 class="text-xl font-semibold">MERN Stack</h3>
+              <p class="max-w-xl text-center">MongoDB, Express.js, React, Node.js.</p>
+            </article>
+            <article class="swiper-slide flex flex-col items-center gap-4 p-6" tabindex="0" aria-label="Python Backends">
+              <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-sky-400 to-indigo-600 flex items-center justify-center text-2xl font-bold">Py</div>
+              <h3 class="text-xl font-semibold">Python Backends</h3>
+              <p class="max-w-xl text-center">FastAPI, Flask — fast &amp; secure APIs.</p>
+            </article>
+            <article class="swiper-slide flex flex-col items-center gap-4 p-6" tabindex="0" aria-label="Laravel / PHP">
+              <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-green-400 to-emerald-600 flex items-center justify-center text-2xl font-bold">PHP</div>
+              <h3 class="text-xl font-semibold">Laravel / PHP</h3>
+              <p class="max-w-xl text-center">Robust server-rendered apps.</p>
+            </article>
+            <article class="swiper-slide flex flex-col items-center gap-4 p-6" tabindex="0" aria-label="Databases">
+              <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-yellow-400 to-orange-500 flex items-center justify-center text-2xl font-bold">DB</div>
+              <h3 class="text-xl font-semibold">Databases</h3>
+              <p class="max-w-xl text-center">PostgreSQL, MySQL, SQLite.</p>
+            </article>
+          </div>
+          <div class="swiper-pagination mt-6"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="min-h-screen flex items-center justify-center py-16">
+    <div class="w-full max-w-6xl mx-auto px-6 flex flex-col items-center">
+      <div class="text-center mb-8">
+        <h2 class="text-3xl font-bold">Featured Projects</h2>
+        <p class="text-slate-400 mt-2">Here are some of the projects I've worked on that showcase my skills.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 justify-items-center">
+        <!-- Project 1 -->
+        <div class="bg-white dark:bg-panel rounded-xl p-4 ring-soft hover:ring-2 hover:ring-blue-500 transition flex flex-col items-center">
+          <img src="./images/car.png" alt="Screenshot of Car sale app" class="rounded-md mb-4 w-full h-40 object-cover border border-white/5" loading="lazy" />
+          <h3 class="text-xl font-semibold mb-2 text-center">Car sale</h3>
+          <p class="text-slate-600 dark:text-slate-300 mb-4 text-sm text-center">A dynamic, responsive front-end web application designed to streamline browsing and discovering car listings. Built with React and Tailwind CSS.</p>
+          <div class="flex items-center gap-2 mb-4 justify-center">
+            <span class="text-xs bg-slate-800 px-2 py-1 rounded text-white">HTML</span>
+            <span class="text-xs bg-slate-800 px-2 py-1 rounded text-white">CSS</span>
+            <span class="text-xs bg-slate-800 px-2 py-1 rounded text-white">JavaScript</span>
+          </div>
+          <div class="flex gap-3 justify-center">
+            <a href="https://natinaelyosef.github.io/CarSale/" target="_blank" class="px-3 py-2 border rounded text-sm btn bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 transition">Live Demo</a>
+            <a href="https://github.com/natinaelyosef/CarSale" target="_blank" class="px-3 py-2 border rounded text-sm btn">Source</a>
+          </div>
+        </div>
+        <!-- Project 2 -->
+        <div class="bg-white dark:bg-panel rounded-xl p-4 ring-soft hover:ring-2 hover:ring-blue-500 transition flex flex-col items-center">
+          <img src="./images/shopsy.png" alt="Screenshot of Shopsy app" class="rounded-md mb-4 w-full h-40 object-cover border border-white/5" loading="lazy" />
+          <h3 class="text-xl font-semibold mb-2 text-center">Shopsy</h3>
+          <p class="text-slate-600 dark:text-slate-300 mb-4 text-sm text-center">A responsive front-end web application built with React and Tailwind CSS to provide a smooth online shopping experience.</p>
+          <div class="flex items-center gap-2 mb-4 justify-center">
+            <span class="text-xs bg-slate-800 px-2 py-1 rounded text-white">React</span>
+            <span class="text-xs bg-slate-800 px-2 py-1 rounded text-white">HTML</span>
+            <span class="text-xs bg-slate-800 px-2 py-1 rounded text-white">Tailwind CSS</span>
+          </div>
+          <div class="flex gap-3 justify-center">
+            <a href="#" class="px-3 py-2 border rounded text-sm btn">Live Demo</a>
+            <a href="#" class="px-3 py-2 border rounded text-sm btn">Source</a>
+          </div>
+        </div>
+        <!-- Project 3 -->
+        <div class="bg-white dark:bg-panel rounded-xl p-4 ring-soft hover:ring-2 hover:ring-blue-500 transition flex flex-col items-center">
+          <img src="./images/corruption.png" alt="Screenshot of Assosa University Complaint app" class="rounded-md mb-4 w-full h-40 object-cover border border-white/5" loading="lazy" />
+          <h3 class="text-xl font-semibold mb-2 text-center">Assosa University Complaint</h3>
+          <p class="text-slate-600 dark:text-slate-300 mb-4 text-sm text-center">A secure, responsive web app built with Laravel, PHP and JavaScript to manage and submit complaints.</p>
+          <div class="flex items-center gap-2 mb-4 justify-center">
+            <span class="text-xs bg-slate-800 px-2 py-1 rounded text-white">Laravel</span>
+            <span class="text-xs bg-slate-800 px-2 py-1 rounded text-white">React</span>
+            <span class="text-xs bg-slate-800 px-2 py-1 rounded text-white">Tailwind</span>
+          </div>
+          <div class="flex gap-3 justify-center">
+            <a href="#" class="px-3 py-2 border rounded text-sm btn">Live Demo</a>
+            <a href="#" class="px-3 py-2 border rounded text-sm btn">Source</a>
+          </div>
+        </div>
+      </div>
+      <div class="max-w-6xl mx-auto px-6 mt-12 text-center">
+        <p class="text-lg text-slate-600 dark:text-slate-300">
+          Want to see more projects? <br>
+          <a href="https://github.com/natinaelyosef" target="_blank" rel="noopener" class="inline-block mt-2 px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded btn font-semibold focus:outline-none focus:ring-2 focus:ring-blue-400 transition">
+            Check forward to my GitHub &rarr;
+          </a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="min-h-screen flex items-center justify-center py-16">
+    <div class="w-full max-w-4xl mx-auto px-4 sm:px-6">
+      <header class="text-center mb-8">
+        <h2 class="text-3xl sm:text-4xl font-bold mb-2">Get In Touch</h2>
+        <p class="text-slate-400 text-base sm:text-lg">Have a project in mind or want to collaborate? I'd love to hear from you.</p>
+      </header>
+      <div class="bg-gray-100 dark:bg-panel glass rounded-2xl p-6 sm:p-10 ring-soft shadow-lg border border-gray-200 dark:border-white/10">
+        <form action="mailto:natinaelyosef0947@gmail.com" method="post" enctype="text/plain" aria-label="Contact form"
+          class="shadow-lg border border-gray-300 dark:border-white/10 rounded-2xl p-4 bg-white/80 dark:bg-panel/80">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <label for="name" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Full Name</label>
+              <input id="name" type="text" name="Name" placeholder="Your full name" required
+                class="w-full p-3 rounded-lg bg-gray-100 border border-gray-200 dark:bg-slate-800 dark:border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-400 transition" />
+            </div>
+            <div>
+              <label for="email" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Email</label>
+              <input id="email" type="email" name="Email" placeholder="Your email" required
+                class="w-full p-3 rounded-lg bg-gray-100 border border-gray-200 dark:bg-slate-800 dark:border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-400 transition" />
+            </div>
+          </div>
+          <div class="mb-6">
+            <label for="message" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Message</label>
+            <textarea id="message" name="Message" placeholder="Tell me about your project..." required
+              class="w-full p-3 rounded-lg bg-gray-100 border border-gray-200 dark:bg-slate-800 dark:border-white/20 h-36 sm:h-40 resize-none focus:outline-none focus:ring-2 focus:ring-blue-400 transition"></textarea>
+          </div>
+          <div class="flex justify-center">
+            <button type="submit"
+              class="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg btn text-white font-semibold shadow focus:outline-none focus:ring-2 focus:ring-blue-400 transition">
+              <span class="inline-flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M4 4v16h16V4H4zm2 2h12v12H6V6zm2 2v8h8V8H8z" />
+                </svg>
+                Send message
+              </span>
+            </button>
+          </div>
+        </form>
+        <div class="mt-8 text-slate-400 text-center text-sm">
+          Or email me: <a class="text-sky-400 underline hover:text-sky-300 transition"
+            href="mailto:natyyosefadisu@gmail.com">natyyosefadisu@gmail.com</a><br />
+          <a href="https://drive.google.com/file/d/1EAUxbjdbjmZfxE7jORCBQc0Jkyvh6g39/view?usp=drive_link"
+            target="_blank"
+            class="mt-2 inline-block px-4 py-2 border border-blue-600 rounded-lg btn text-blue-600 bg-white hover:bg-blue-50 dark:bg-transparent dark:text-sky-400 focus:outline-none focus:ring-2 focus:ring-blue-400 transition">
+            Download CV
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-8 border-t border-gray-300 dark:border-white/4 text-center text-sm text-slate-400" role="contentinfo">
+    © 2025 Natinael Yosef • Built with ❤️ • 
+    <a href="https://github.com/natinaelyosef" class="underline focus:outline-none focus:ring-2 focus:ring-blue-400" target="_blank" rel="noopener" aria-label="GitHub Profile">GitHub</a>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+  <script>
+    // Typed effect
+    (function(){
+      const words = ['Front-end Developer','Back-end Developer', 'UX/UI Designer', 'Full-stack Developer',
+      'Problem Solver'];
+      let idx = 0, i = 0, forward = true;
+      const typedEl = document.getElementById('typed');
+
+      function tick() {
+        const word = words[idx];
+        if(forward){
+          typedEl.textContent = word.slice(0, ++i);
+          if(i === word.length){
+            forward = false;
+            setTimeout(tick, 1200);
+            return;
+          }
+        } else {
+          typedEl.textContent = word.slice(0, --i);
+          if(i === 0){
+            forward = true;
+            idx = (idx + 1) % words.length;
+          }
+        }
+        setTimeout(tick, forward ? 80 : 40);
+      }
+      tick();
+    })();
+
+    // Initialize Swiper carousel
+    new Swiper('.mySwiper', {
+      loop: true,
+      slidesPerView: 1,
+      effect: 'fade',
+      fadeEffect: { crossFade: true },
+      autoplay: { delay: 2500, disableOnInteraction: false },
+      pagination: { el: '.swiper-pagination', clickable: true },
+      keyboard: { enabled: true }
+    });
+
+    const themeToggleDesktop = document.getElementById('theme-toggle');
+    const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+    const rootEl = document.documentElement;
+
+    function setTheme(isDark) {
+      if (isDark) {
+        rootEl.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+        themeToggleDesktop.textContent = '☀️';
+        themeToggleMobile.textContent = '☀️';
+      } else {
+        rootEl.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+        themeToggleDesktop.textContent = '🌙';
+        themeToggleMobile.textContent = '🌙';
+      }
+    }
+
+    themeToggleDesktop.addEventListener('click', () => setTheme(!rootEl.classList.contains('dark')));
+    themeToggleMobile.addEventListener('click', () => setTheme(!rootEl.classList.contains('dark')));
+
+    // Load theme from localStorage or system preference
+    (() => {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') setTheme(true);
+      else if (savedTheme === 'light') setTheme(false);
+      else {
+        // System preference fallback
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        setTheme(prefersDark);
+      }
+    })();
+
+    // Mobile Nav Toggle
+    const navToggle = document.getElementById('nav-toggle');
+    const mobileNav = document.getElementById('mobile-nav');
+    const navClose = document.getElementById('nav-close');
+
+    function openMobileNav() {
+      mobileNav.classList.remove('hidden');
+      mobileNav.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      navToggle.setAttribute('aria-expanded', 'true');
+      navClose.focus();
+    }
+
+    function closeMobileNav() {
+      mobileNav.classList.add('hidden');
+      mobileNav.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      navToggle.setAttribute('aria-expanded', 'false');
+      navToggle.focus();
+    }
+
+    navToggle.addEventListener('click', openMobileNav);
+    navClose.addEventListener('click', closeMobileNav);
+
+    // Close mobile nav clicking outside menu content
+    mobileNav.addEventListener('click', e => {
+      if (e.target === mobileNav) closeMobileNav();
+    });
+
+    // Make closeMobileNav accessible globally
+    window.closeMobileNav = closeMobileNav;
+  </script>
+</body>
+</html>
