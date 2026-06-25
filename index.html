@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en" class="dark">
 <head>
@@ -6,8 +7,12 @@
   <meta name="description" content="Natinael Yosef — Full-stack developer portfolio." />
   <meta property="og:title" content="Natinael Yosef — Portfolio" />
   <meta property="og:description" content="Full-stack developer portfolio." />
-  <meta property="og:image" content="./assets/profile.jpg" />
   <title>Natinael Yosef — Portfolio</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -16,381 +21,505 @@
       darkMode: 'class',
       theme: {
         extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Space Grotesk', 'sans-serif'],
+          },
           colors: {
-            brand: { DEFAULT: '#1f3b6f', light: '#2b5bb0' },
-            darkbg: '#0f1720',
-            panel: '#0b1220',
-            muted: '#9aa4b2'
+            brand: {
+              50: '#eef2ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              900: '#312e81',
+            }
           },
           animation: {
-            fadeInUp: 'fadeInUp 0.6s ease-out forwards',
-            float: 'float 6s ease-in-out infinite',
+            'fade-in': 'fadeIn 0.8s ease-out forwards',
+            'slide-up': 'slideUp 0.8s ease-out forwards',
+            'float': 'float 6s ease-in-out infinite',
+            'marquee': 'marquee 25s linear infinite',
           },
           keyframes: {
-            fadeInUp: {
-              '0%': { opacity: 0, transform: 'translateY(20px)' },
-              '100%': { opacity: 1, transform: 'translateY(0)' },
-            },
-            float: {
-              '0%, 100%': { transform: 'translateY(0)' },
-              '50%': { transform: 'translateY(-10px)' },
-            },
+            fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+            slideUp: { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+            float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-10px)' } },
+            marquee: { '0%': { transform: 'translateX(0%)' }, '100%': { transform: 'translateX(-100%)' } }
           }
         }
       }
     }
   </script>
 
-  <!-- Swiper CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
-
   <style>
     body {
-      font-family: Inter, ui-sans-serif, system-ui;
+      font-family: 'Inter', sans-serif;
       scroll-behavior: smooth;
-      background-color: white;
-      color: #1e293b; /* Tailwind slate-800 */
     }
-    .dark body {
-      background-color: #0f1720;
-      color: #e0e7ff; /* Tailwind slate-100 */
+    
+    /* Dot Pattern Background */
+    .dot-pattern {
+      background-image: radial-gradient(#a1a1aa 1px, transparent 1px);
+      background-size: 24px 24px;
     }
+    .dark .dot-pattern {
+      background-image: radial-gradient(#27272a 1px, transparent 1px);
+    }
+
+    /* Glassmorphism */
     .glass {
-      background: rgba(10,14,20, 0.6);
-      border: 1px solid rgba(255,255,255, 0.06);
-      backdrop-filter: blur(7px);
-      transition: background 0.3s ease;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
     }
-    .ring-soft {
-      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+    .dark .glass {
+      background: rgba(24, 24, 27, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     }
-    .round-photo {
-      width: 360px;
-      height: 360px;
-      object-fit: cover;
-      border-radius: 9999px;
-      border: 6px solid rgba(255,255,255,0.05);
-      box-shadow: 0 30px 60px rgba(2,6,23,0.7);
-      transition: transform 0.3s ease;
+
+    /* Gradient Text */
+    .text-gradient {
+      background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
-    .round-photo:hover {
-      transform: scale(1.03) translateY(-5px);
+
+    /* Scroll Reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
     }
-    @media (max-width: 1024px) {
-      .round-photo {
-        width: 260px;
-        height: 260px;
-      }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
     }
-    .btn {
-      transition: all 0.2s ease;
-    }
-    .btn:hover, .btn:focus {
-      transform: translateY(-2px) scale(1.05);
-      box-shadow: 0 5px 20px rgba(0,0,0,0.25);
-      outline: none;
-    }
-    .mobile-nav {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: rgba(15,23,32,0.98);
-      z-index: 50;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      transition: opacity 0.3s ease;
-    }
-    .mobile-nav a {
-      font-size: 1.5rem;
-      margin-bottom: 1.5rem;
-      color: #a5b4fc; /* Indigo 300 */
-      transition: color 0.3s ease;
-    }
-    .mobile-nav a:hover,
-    .mobile-nav a:focus {
-      color: #6366f1; /* Indigo 500 */
-    }
-    .bg-blob {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(100px);
-      opacity: 0.15;
-      z-index: -1;
-    }
-    .blob1 {
-      width: 300px;
-      height: 300px;
-      background: #3b82f6;
-      top: -50px;
-      left: -50px;
-      animation: float 8s ease-in-out infinite;
-    }
-    .blob2 {
-      width: 400px;
-      height: 400px;
-      background: #8b5cf6;
-      bottom: -80px;
-      right: -80px;
-      animation: float 10s ease-in-out infinite;
-    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #52525b; }
   </style>
 </head>
-<body class="min-h-screen relative bg-white text-gray-800 dark:bg-darkbg dark:text-gray-100">
-
-  <!-- Background blobs -->
-  <div class="bg-blob blob1" aria-hidden="true"></div>
-  <div class="bg-blob blob2" aria-hidden="true"></div>
+<body class="min-h-screen font-sans bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 transition-colors duration-300 dot-pattern">
 
   <!-- NAVIGATION -->
-  <header class="w-full py-4 border-b border-gray-300 dark:border-white/10 sticky top-0 bg-white/80 dark:bg-darkbg/80 z-40 backdrop-blur" role="banner">
-    <div class="max-w-6xl mx-auto px-6 flex items-center justify-between">
-      <h1 class="text-xl font-semibold" aria-label="Site title">Portfolio</h1>
-      <nav class="space-x-6 text-sm hidden md:flex items-center" role="navigation" aria-label="Primary navigation">
-        <a href="#home" class="hover:text-blue-600 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400">Home</a>
-        <a href="#about" class="hover:text-blue-600 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400">About</a>
-        <a href="#skills" class="hover:text-blue-600 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400">Skills</a>
-        <a href="#projects" class="hover:text-blue-600 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400">Projects</a>
-        <a href="#contact" class="hover:text-blue-600 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400">Contact</a>
-        <a href="https://drive.google.com/file/d/1EAUxbjdbjmZfxE7jORCBQc0Jkyvh6g39/view?usp=drive_link" download class="ml-3 inline-block bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded text-sm font-medium btn text-white focus:outline-none focus:ring-2 focus:ring-blue-400" aria-label="Download CV">Download CV</a>
-        <button id="theme-toggle" class="ml-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-400" aria-label="Toggle dark mode">🌙</button>
-      </nav>
-      <button id="nav-toggle" aria-label="Open mobile menu" class="md:hidden text-2xl focus:outline-none focus:ring-2 focus:ring-blue-400">☰</button>
-    </div>
-
-    <!-- Mobile Nav -->
-    <nav id="mobile-nav" class="mobile-nav hidden" role="navigation" aria-label="Mobile navigation" aria-hidden="true">
-      <button id="nav-close" aria-label="Close mobile menu" class="absolute top-6 right-8 text-3xl focus:outline-none focus:ring-2 focus:ring-blue-400">×</button>
-      <a href="#home" onclick="closeMobileNav()" tabindex="0">Home</a>
-      <a href="#about" onclick="closeMobileNav()" tabindex="0">About</a>
-      <a href="#skills" onclick="closeMobileNav()" tabindex="0">Skills</a>
-      <a href="#projects" onclick="closeMobileNav()" tabindex="0">Projects</a>
-      <a href="#contact" onclick="closeMobileNav()" tabindex="0">Contact</a>
-      <a href="https://drive.google.com/file/d/1n6mvwRikjd2b0k6tmY_PIqvgnUhxTFy0/view?usp=sharing" download class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded btn focus:outline-none focus:ring-2 focus:ring-blue-400" aria-label="Download CV">Download CV</a>
-      <button id="theme-toggle-mobile" aria-label="Toggle dark mode" class="mt-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-400">🌙</button>
+  <header class="fixed top-6 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
+    <nav class="glass pointer-events-auto rounded-full px-6 py-3 shadow-lg flex items-center gap-8">
+      <a href="#home" class="font-display font-bold text-xl tracking-tight text-zinc-900 dark:text-white">NY.</a>
+      <div class="hidden md:flex items-center gap-6 text-sm font-medium text-zinc-600 dark:text-zinc-400">
+        <a href="#about" class="hover:text-zinc-900 dark:hover:text-white transition">About</a>
+        <a href="#skills" class="hover:text-zinc-900 dark:hover:text-white transition">Skills</a>
+        <a href="#projects" class="hover:text-zinc-900 dark:hover:text-white transition">Projects</a>
+        <a href="#contact" class="hover:text-zinc-900 dark:hover:text-white transition">Contact</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <button id="theme-toggle" class="p-2 rounded-full hover:bg-zinc-200 dark:hover:bg-zinc-800 transition text-zinc-600 dark:text-zinc-400" aria-label="Toggle Theme">
+          <svg id="icon-sun" class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          <svg id="icon-moon" class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+        </button>
+        <a href="https://drive.google.com/file/d/1n6mvwRikjd2b0k6tmY_PIqvgnUhxTFy0/view?usp=sharing" download class="hidden md:inline-flex bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 text-sm font-medium px-4 py-2 rounded-full hover:scale-105 transition">Resume</a>
+        <button id="nav-toggle" class="md:hidden p-2 rounded-full hover:bg-zinc-200 dark:hover:bg-zinc-800 transition text-zinc-600 dark:text-zinc-400">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+      </div>
     </nav>
   </header>
 
+  <!-- MOBILE MENU -->
+  <div id="mobile-menu" class="fixed inset-0 z-40 bg-zinc-50/95 dark:bg-zinc-950/95 backdrop-blur-xl hidden flex-col items-center justify-center gap-8 text-2xl font-display font-semibold text-zinc-900 dark:text-white transition-all duration-300">
+    <a href="#home" class="hover:text-indigo-500 transition" onclick="closeMobileNav()">Home</a>
+    <a href="#about" class="hover:text-indigo-500 transition" onclick="closeMobileNav()">About</a>
+    <a href="#skills" class="hover:text-indigo-500 transition" onclick="closeMobileNav()">Skills</a>
+    <a href="#projects" class="hover:text-indigo-500 transition" onclick="closeMobileNav()">Projects</a>
+    <a href="#contact" class="hover:text-indigo-500 transition" onclick="closeMobileNav()">Contact</a>
+    <a href="https://drive.google.com/file/d/1n6mvwRikjd2b0k6tmY_PIqvgnUhxTFy0/view?usp=sharing" download class="mt-4 px-6 py-3 bg-indigo-600 text-white rounded-full text-base">Download CV</a>
+    <button id="nav-close" class="absolute top-8 right-8 p-2 text-zinc-500 hover:text-zinc-900 dark:hover:text-white">
+      <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+    </button>
+  </div>
+
   <!-- HERO -->
-  <section id="home" class="min-h-screen flex flex-col justify-center">
-    <div class="max-w-6xl mx-auto px-6 flex flex-col lg:flex-row items-center gap-12 h-full">
-      <div class="flex-shrink-0 flex justify-center lg:justify-start animate-fadeInUp" style="animation-delay: 0.1s;">
-        <div class="round-photo overflow-hidden ring-soft" role="img" aria-label="Natinael Yosef profile photo">
-          <img src="./images/photo.png" alt="Natinael Yosef" class="w-full h-full object-cover" loading="lazy" />
+  <section id="home" class="min-h-screen flex flex-col items-center justify-center px-6 pt-24 pb-12 relative overflow-hidden">
+    <!-- Ambient Glow -->
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-indigo-600/20 rounded-full blur-[120px] pointer-events-none"></div>
+    
+    <div class="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto w-full relative z-10">
+      
+      <!-- Text Content -->
+      <div class="flex flex-col items-start text-left animate-fade-in order-2 md:order-1">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-zinc-200 dark:border-zinc-800 bg-white/50 dark:bg-zinc-900/50 backdrop-blur text-sm text-zinc-600 dark:text-zinc-400 mb-8 shadow-sm">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          Available for new opportunities
+        </div>
+        
+        <h1 class="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-6 text-zinc-900 dark:text-white">
+          Hi, I'm <span class="text-gradient">Natinael</span>.<br/>
+          I build <span id="typed" class="text-gradient"></span><span class="animate-pulse text-indigo-500">|</span>
+        </h1>
+        
+        <p class="text-lg text-zinc-600 dark:text-zinc-400 max-w-xl mb-10 leading-relaxed">
+          Software Engineering Student & Full-Stack Developer crafting beautiful, 
+          functional, and user-friendly web applications with modern technologies.
+        </p>
+        
+        <div class="flex flex-wrap items-center gap-4 mb-12">
+          <a href="#projects" class="px-6 py-3 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-full font-medium hover:scale-105 transition shadow-lg">View My Work</a>
+          <a href="https://drive.google.com/file/d/1n6mvwRikjd2b0k6tmY_PIqvgnUhxTFy0/view?usp=sharing" download class="px-6 py-3 glass rounded-full font-medium hover:scale-105 transition flex items-center gap-2 text-zinc-900 dark:text-white">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+            Download CV
+          </a>
+        </div>
+        
+        <div class="flex items-center gap-6 text-zinc-500 dark:text-zinc-500">
+          <a href="https://github.com/natinaelyosef" target="_blank" class="hover:text-zinc-900 dark:hover:text-white transition" aria-label="GitHub">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/natinael-yosef" target="_blank" class="hover:text-zinc-900 dark:hover:text-white transition" aria-label="LinkedIn">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          </a>
+          <a href="mailto:natyyosefadisu@gmail.com" class="hover:text-zinc-900 dark:hover:text-white transition" aria-label="Email">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+          </a>
         </div>
       </div>
-      <div class="flex-1 animate-fadeInUp" style="animation-delay: 0.2s;">
-        <h2 class="text-5xl font-extrabold mb-2">Natinael Yosef Adisu</h2>
-        <p class="text-xl text-blue-500 dark:text-sky-400 mb-4" aria-live="polite" aria-atomic="true">
-          <span id="typed" class="font-medium"></span><span class="animate-pulse" aria-hidden="true">|</span>
-        </p>
-        <p class="max-w-2xl leading-relaxed mb-6">
-          Passionate full-stack developer with expertise in modern web technologies.
-          I create beautiful, functional, and user-friendly applications that solve real-world problems.
-        </p>
-        <div class="flex flex-wrap gap-3 mb-6">
-          <a href="https://github.com/natinaelyosef" target="_blank" rel="noopener" class="px-4 py-2 border rounded-md glass btn focus:outline-none focus:ring-2 focus:ring-blue-400" aria-label="GitHub Profile">GitHub</a>
-          <a href="https://www.linkedin.com/in/natinael-yosef" target="_blank" rel="noopener" class="px-4 py-2 border rounded-md glass btn focus:outline-none focus:ring-2 focus:ring-blue-400" aria-label="LinkedIn Profile">LinkedIn</a>
-          <a href="mailto:natyyosefadisu@gmail.com" class="px-4 py-2 border rounded-md glass btn focus:outline-none focus:ring-2 focus:ring-blue-400" aria-label="Send Email">Email</a>
+
+      <!-- Hero Image -->
+      <div class="flex justify-center md:justify-end animate-slide-up order-1 md:order-2">
+        <div class="relative group">
+          <!-- Glowing Aura -->
+          <div class="absolute -inset-6 bg-gradient-to-tr from-indigo-500 to-purple-500 rounded-full blur-3xl opacity-20 group-hover:opacity-40 transition duration-500"></div>
+          
+          <!-- Image Container -->
+          <div class="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 rounded-[2.5rem] overflow-hidden border-4 border-white/10 dark:border-zinc-800 shadow-2xl transform rotate-3 group-hover:rotate-0 transition-all duration-500">
+            <img src="./images/photo.png" alt="Natinael Yosef" class="w-full h-full object-cover" />
+          </div>
+          
+          <!-- Floating Badge -->
+          <div class="absolute -bottom-4 -left-4 glass px-4 py-2 rounded-xl shadow-lg flex items-center gap-2 animate-float">
+            <span class="text-2xl">👨‍💻</span>
+            <span class="text-sm font-semibold text-zinc-900 dark:text-white whitespace-nowrap">Full-Stack Dev</span>
+          </div>
         </div>
-        <a href="https://drive.google.com/file/d/1EAUxbjdbjmZfxE7jORCBQc0Jkyvh6g39/view?usp=drive_link" download class="bg-blue-600 hover:bg-blue-700 px-5 py-3 rounded-md font-medium shadow btn text-white focus:outline-none focus:ring-2 focus:ring-blue-400" aria-label="Download CV">↓ Download CV</a>
       </div>
+
     </div>
   </section>
 
-  <!-- ABOUT ME -->
-  <section id="about" class="min-h-screen flex flex-col md:flex-row">
-    <!-- Profile Image Full Screen Side -->
-    <div class="w-full md:w-1/2 h-72 md:h-screen flex justify-center items-center bg-gradient-to-tr from-blue-100 to-blue-300 dark:from-panel dark:to-darkbg">
-      <img src="./images/naty-photo.png" alt="Natinael Yosef" class="w-full h-full object-cover shadow-xl" loading="lazy" />
-    </div>
-    <!-- About Text Full Screen Side -->
-    <div class="w-full md:w-1/2 flex flex-col justify-center px-8 py-12 md:py-0 h-72 md:h-screen bg-white dark:bg-panel">
-      <h2 class="text-4xl font-bold mb-4">About Me</h2>
-      <p class="text-blue-600 dark:text-sky-400 text-2xl font-semibold mb-2">Developer</p>
-      <p class="text-slate-700 dark:text-slate-300 text-lg mb-4 font-medium">
-        I am a passionate Software Engineer specializing in both front-end and back-end web development.
-      </p>
-      <p class="text-slate-600 dark:text-slate-400 text-base leading-relaxed mb-3">
-        I craft clean, efficient code and deliver pixel-perfect designs. My focus is on building interactive, engaging websites using modern web animations and best practices.
-      </p>
-      <p class="text-slate-600 dark:text-slate-400 text-base leading-relaxed mb-3">
-        I believe that responsive design is essential for accessibility, ensuring your website looks and works great on any device.
-      </p>
-      <p class="text-slate-600 dark:text-slate-400 text-base leading-relaxed">
-        My goal is to create user experiences that are not only visually appealing but also intuitive and enjoyable. I am always eager to learn new technologies and collaborate on exciting projects.
-      </p>
+  <!-- ABOUT ME (Bento Grid) -->
+  <section id="about" class="py-24 px-6">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="font-display text-3xl md:text-4xl font-bold mb-12 text-center text-zinc-900 dark:text-white reveal">About Me</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Bio Card -->
+        <div class="md:col-span-2 glass rounded-3xl p-8 md:p-10 reveal">
+          <h3 class="text-2xl font-bold mb-4 text-zinc-900 dark:text-white">Developer & Problem Solver</h3>
+          <p class="text-zinc-600 dark:text-zinc-400 leading-relaxed mb-4">
+            I am a passionate Software Engineer specializing in both front-end and back-end web development. 
+            I craft clean, efficient code and deliver pixel-perfect designs. My focus is on building interactive, 
+            engaging websites using modern web animations and best practices.
+          </p>
+          <p class="text-zinc-600 dark:text-zinc-400 leading-relaxed">
+            I believe that responsive design is essential for accessibility. My goal is to create user experiences 
+            that are not only visually appealing but also intuitive and enjoyable.
+          </p>
+        </div>
+        
+        <!-- Profile Image Card -->
+        <div class="glass rounded-3xl p-2 overflow-hidden reveal relative group h-full min-h-[250px]">
+          <img src="./images/naty-photo.png" alt="Natinael Yosef" class="w-full h-full object-cover rounded-2xl transition-transform duration-700 group-hover:scale-105" />
+          <div class="absolute inset-0 bg-gradient-to-t from-zinc-900/90 via-zinc-900/20 to-transparent rounded-2xl pointer-events-none"></div>
+          <div class="absolute bottom-6 left-6 text-white pointer-events-none">
+            <p class="font-display font-bold text-xl">Natinael Yosef</p>
+            <p class="text-sm text-zinc-300 flex items-center gap-2 mt-1">
+              <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+              Software Engineer
+            </p>
+          </div>
+        </div>
+        
+        <!-- Stats/Info Card -->
+        <div class="glass rounded-3xl p-8 flex flex-col justify-between reveal">
+          <div>
+            <h4 class="text-sm font-semibold text-indigo-500 uppercase tracking-wider mb-4">Quick Facts</h4>
+            <ul class="space-y-4 text-zinc-900 dark:text-zinc-300">
+              <li class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                <span>Based in Ethiopia</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 14l9-5-9-5-9 5 9 5z"></path><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path></svg>
+                <span>Software Eng. Student</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                <span>Full-Stack Focus</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-8 pt-8 border-t border-zinc-200 dark:border-zinc-800">
+            <p class="text-sm text-zinc-500">Currently mastering</p>
+            <p class="font-semibold text-zinc-900 dark:text-white">FastAPI, Next.js & PostgreSQL</p>
+          </div>
+        </div>
+        
+        <!-- Marquee/Tech Card -->
+        <div class="md:col-span-2 glass rounded-3xl p-6 overflow-hidden reveal">
+          <p class="text-sm font-semibold text-zinc-500 uppercase tracking-wider mb-4 text-center">My Tech Stack</p>
+          <div class="relative flex overflow-x-hidden">
+            <div class="flex gap-8 animate-marquee whitespace-nowrap py-2">
+              <span class="px-4 py-2 rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-sm font-medium">React</span>
+              <span class="px-4 py-2 rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-sm font-medium">Node.js</span>
+              <span class="px-4 py-2 rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-sm font-medium">Python</span>
+              <span class="px-4 py-2 rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-sm font-medium">FastAPI</span>
+              <span class="px-4 py-2 rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-sm font-medium">Tailwind CSS</span>
+              <span class="px-4 py-2 rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-sm font-medium">PostgreSQL</span>
+              <span class="px-4 py-2 rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-sm font-medium">Laravel</span>
+              <span class="px-4 py-2 rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-sm font-medium">MongoDB</span>
+              <!-- Duplicate for infinite scroll effect -->
+              <span class="px-4 py-2 rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-sm font-medium">React</span>
+              <span class="px-4 py-2 rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-sm font-medium">Node.js</span>
+              <span class="px-4 py-2 rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-sm font-medium">Python</span>
+              <span class="px-4 py-2 rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-sm font-medium">FastAPI</span>
+              <span class="px-4 py-2 rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-sm font-medium">Tailwind CSS</span>
+              <span class="px-4 py-2 rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-sm font-medium">PostgreSQL</span>
+              <span class="px-4 py-2 rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-sm font-medium">Laravel</span>
+              <span class="px-4 py-2 rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-sm font-medium">MongoDB</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
   </section>
 
   <!-- SKILLS -->
-  <section id="skills" class="min-h-screen flex items-center justify-center py-16">
-    <div class="w-full max-w-6xl mx-auto px-6 flex flex-col items-center">
-      <h2 class="text-4xl font-bold mb-4 text-center">Skills &amp; Technologies</h2>
-      <p class="mb-10 text-lg text-gray-600 dark:text-slate-400 text-center max-w-2xl">
-        I work with a wide range of modern technologies and frameworks to build robust, scalable, and beautiful web applications.
+  <section id="skills" class="py-24 px-6 bg-zinc-100/50 dark:bg-zinc-900/30">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="font-display text-3xl md:text-4xl font-bold mb-4 text-center text-zinc-900 dark:text-white reveal">Skills & Expertise</h2>
+      <p class="text-center text-zinc-600 dark:text-zinc-400 mb-12 max-w-2xl mx-auto reveal">
+        I work with a wide range of modern technologies to build robust, scalable, and beautiful web applications.
       </p>
-      <div class="bg-gray-100 dark:bg-panel glass rounded-xl p-10 ring-soft flex flex-col items-center w-full">
-        <div class="swiper mySwiper w-full" aria-label="Technologies carousel" role="region">
-          <div class="swiper-wrapper">
-            <article class="swiper-slide flex flex-col items-center gap-4 p-6" tabindex="0" aria-label="MERN Stack">
-              <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-pink-400 to-purple-500 flex items-center justify-center text-2xl font-bold">RE</div>
-              <h3 class="text-xl font-semibold">MERN Stack</h3>
-              <p class="max-w-xl text-center">MongoDB, Express.js, React, Node.js.</p>
-            </article>
-            <article class="swiper-slide flex flex-col items-center gap-4 p-6" tabindex="0" aria-label="Python Backends">
-              <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-sky-400 to-indigo-600 flex items-center justify-center text-2xl font-bold">Py</div>
-              <h3 class="text-xl font-semibold">Python Backends</h3>
-              <p class="max-w-xl text-center">FastAPI, Flask — fast &amp; secure APIs.</p>
-            </article>
-            <article class="swiper-slide flex flex-col items-center gap-4 p-6" tabindex="0" aria-label="Laravel / PHP">
-              <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-green-400 to-emerald-600 flex items-center justify-center text-2xl font-bold">PHP</div>
-              <h3 class="text-xl font-semibold">Laravel / PHP</h3>
-              <p class="max-w-xl text-center">Robust server-rendered apps.</p>
-            </article>
-            <article class="swiper-slide flex flex-col items-center gap-4 p-6" tabindex="0" aria-label="Databases">
-              <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-yellow-400 to-orange-500 flex items-center justify-center text-2xl font-bold">DB</div>
-              <h3 class="text-xl font-semibold">Databases</h3>
-              <p class="max-w-xl text-center">PostgreSQL, MySQL, SQLite.</p>
-            </article>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Frontend -->
+        <div class="glass rounded-2xl p-6 reveal">
+          <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center mb-4">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
           </div>
-          <div class="swiper-pagination mt-6"></div>
+          <h3 class="text-xl font-bold mb-2 text-zinc-900 dark:text-white">Frontend</h3>
+          <ul class="space-y-2 text-zinc-600 dark:text-zinc-400 text-sm">
+            <li>• React / Next.js</li>
+            <li>• Tailwind CSS</li>
+            <li>• JavaScript (ES6+)</li>
+            <li>• HTML5 / CSS3</li>
+          </ul>
+        </div>
+        
+        <!-- Backend -->
+        <div class="glass rounded-2xl p-6 reveal">
+          <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center mb-4">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path></svg>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-zinc-900 dark:text-white">Backend</h3>
+          <ul class="space-y-2 text-zinc-600 dark:text-zinc-400 text-sm">
+            <li>• Node.js / Express</li>
+            <li>• Python / FastAPI</li>
+            <li>• PHP / Laravel</li>
+            <li>• RESTful APIs</li>
+          </ul>
+        </div>
+        
+        <!-- Database -->
+        <div class="glass rounded-2xl p-6 reveal">
+          <div class="w-12 h-12 rounded-xl bg-orange-500/10 text-orange-500 flex items-center justify-center mb-4">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-zinc-900 dark:text-white">Databases</h3>
+          <ul class="space-y-2 text-zinc-600 dark:text-zinc-400 text-sm">
+            <li>• PostgreSQL</li>
+            <li>• MongoDB</li>
+            <li>• MySQL</li>
+            <li>• SQLite</li>
+          </ul>
+        </div>
+        
+        <!-- Tools -->
+        <div class="glass rounded-2xl p-6 reveal">
+          <div class="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center mb-4">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-zinc-900 dark:text-white">Tools</h3>
+          <ul class="space-y-2 text-zinc-600 dark:text-zinc-400 text-sm">
+            <li>• Git / GitHub</li>
+            <li>• Docker</li>
+            <li>• VS Code</li>
+            <li>• Figma</li>
+          </ul>
         </div>
       </div>
     </div>
   </section>
 
   <!-- PROJECTS -->
-  <section id="projects" class="min-h-screen flex items-center justify-center py-16">
-    <div class="w-full max-w-6xl mx-auto px-6 flex flex-col items-center">
-      <div class="text-center mb-8">
-        <h2 class="text-3xl font-bold">Featured Projects</h2>
-        <p class="text-slate-400 mt-2">Here are some of the projects I've worked on that showcase my skills.</p>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 justify-items-center">
+  <section id="projects" class="py-24 px-6">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="font-display text-3xl md:text-4xl font-bold mb-4 text-center text-zinc-900 dark:text-white reveal">Featured Projects</h2>
+      <p class="text-center text-zinc-600 dark:text-zinc-400 mb-12 max-w-2xl mx-auto reveal">
+        Here are some of the projects I've worked on that showcase my skills.
+      </p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <!-- Project 1 -->
-        <div class="bg-white dark:bg-panel rounded-xl p-4 ring-soft hover:ring-2 hover:ring-blue-500 transition flex flex-col items-center">
-          <img src="./images/car.png" alt="Screenshot of Car sale app" class="rounded-md mb-4 w-full h-40 object-cover border border-white/5" loading="lazy" />
-          <h3 class="text-xl font-semibold mb-2 text-center">Car sale</h3>
-          <p class="text-slate-600 dark:text-slate-300 mb-4 text-sm text-center">A dynamic, responsive front-end web application designed to streamline browsing and discovering car listings. Built with React and Tailwind CSS.</p>
-          <div class="flex items-center gap-2 mb-4 justify-center">
-            <span class="text-xs bg-slate-800 px-2 py-1 rounded text-white">HTML</span>
-            <span class="text-xs bg-slate-800 px-2 py-1 rounded text-white">CSS</span>
-            <span class="text-xs bg-slate-800 px-2 py-1 rounded text-white">JavaScript</span>
+        <div class="group glass rounded-2xl overflow-hidden reveal flex flex-col">
+          <div class="relative h-48 overflow-hidden bg-zinc-800">
+            <img src="./images/car.png" alt="Car sale app" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-zinc-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
           </div>
-          <div class="flex gap-3 justify-center">
-            <a href="https://natinaelyosef.github.io/CarSale/" target="_blank" class="px-3 py-2 border rounded text-sm btn bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 transition">Live Demo</a>
-            <a href="https://github.com/natinaelyosef/CarSale" target="_blank" class="px-3 py-2 border rounded text-sm btn">Source</a>
+          <div class="p-6 flex-1 flex flex-col">
+            <h3 class="text-xl font-bold mb-2 text-zinc-900 dark:text-white">Car Sale Platform</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-4 flex-1">
+              A dynamic, responsive front-end web application designed to streamline browsing and discovering car listings.
+            </p>
+            <div class="flex flex-wrap gap-2 mb-6">
+              <span class="px-2 py-1 text-xs font-medium rounded-md bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">HTML</span>
+              <span class="px-2 py-1 text-xs font-medium rounded-md bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">CSS</span>
+              <span class="px-2 py-1 text-xs font-medium rounded-md bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">JavaScript</span>
+            </div>
+            <div class="flex items-center gap-4 pt-4 border-t border-zinc-200 dark:border-zinc-800">
+              <a href="https://natinaelyosef.github.io/CarSale/" target="_blank" class="text-sm font-medium text-indigo-500 hover:text-indigo-400 flex items-center gap-1">
+                Live Demo <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+              </a>
+              <a href="https://github.com/natinaelyosef/CarSale" target="_blank" class="text-sm font-medium text-zinc-500 hover:text-zinc-300 flex items-center gap-1">
+                Source <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+              </a>
+            </div>
           </div>
         </div>
+        
         <!-- Project 2 -->
-        <div class="bg-white dark:bg-panel rounded-xl p-4 ring-soft hover:ring-2 hover:ring-blue-500 transition flex flex-col items-center">
-          <img src="./images/shopsy.png" alt="Screenshot of Shopsy app" class="rounded-md mb-4 w-full h-40 object-cover border border-white/5" loading="lazy" />
-          <h3 class="text-xl font-semibold mb-2 text-center">Shopsy</h3>
-          <p class="text-slate-600 dark:text-slate-300 mb-4 text-sm text-center">A responsive front-end web application built with React and Tailwind CSS to provide a smooth online shopping experience.</p>
-          <div class="flex items-center gap-2 mb-4 justify-center">
-            <span class="text-xs bg-slate-800 px-2 py-1 rounded text-white">React</span>
-            <span class="text-xs bg-slate-800 px-2 py-1 rounded text-white">HTML</span>
-            <span class="text-xs bg-slate-800 px-2 py-1 rounded text-white">Tailwind CSS</span>
+        <div class="group glass rounded-2xl overflow-hidden reveal flex flex-col">
+          <div class="relative h-48 overflow-hidden bg-zinc-800">
+            <img src="./images/shopsy.png" alt="Screenshot of Shopsy app" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-zinc-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
           </div>
-          <div class="flex gap-3 justify-center">
-            <a href="#" class="px-3 py-2 border rounded text-sm btn">Live Demo</a>
-            <a href="#" class="px-3 py-2 border rounded text-sm btn">Source</a>
+          <div class="p-6 flex-1 flex flex-col">
+            <h3 class="text-xl font-bold mb-2 text-zinc-900 dark:text-white">Shopsy E-Commerce</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-4 flex-1">
+              A responsive front-end web application built with React and Tailwind CSS to provide a smooth online shopping experience.
+            </p>
+            <div class="flex flex-wrap gap-2 mb-6">
+              <span class="px-2 py-1 text-xs font-medium rounded-md bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">React</span>
+              <span class="px-2 py-1 text-xs font-medium rounded-md bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">HTML</span>
+              <span class="px-2 py-1 text-xs font-medium rounded-md bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">Tailwind</span>
+            </div>
+            <div class="flex items-center gap-4 pt-4 border-t border-zinc-200 dark:border-zinc-800">
+              <a href="#" class="text-sm font-medium text-indigo-500 hover:text-indigo-400 flex items-center gap-1">
+                Live Demo <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+              </a>
+              <a href="#" class="text-sm font-medium text-zinc-500 hover:text-zinc-300 flex items-center gap-1">
+                Source <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+              </a>
+            </div>
           </div>
         </div>
+        
         <!-- Project 3 -->
-        <div class="bg-white dark:bg-panel rounded-xl p-4 ring-soft hover:ring-2 hover:ring-blue-500 transition flex flex-col items-center">
-          <img src="./images/corruption.png" alt="Screenshot of Assosa University Complaint app" class="rounded-md mb-4 w-full h-40 object-cover border border-white/5" loading="lazy" />
-          <h3 class="text-xl font-semibold mb-2 text-center">Assosa University Complaint</h3>
-          <p class="text-slate-600 dark:text-slate-300 mb-4 text-sm text-center">A secure, responsive web app built with Laravel, PHP and JavaScript to manage and submit complaints.</p>
-          <div class="flex items-center gap-2 mb-4 justify-center">
-            <span class="text-xs bg-slate-800 px-2 py-1 rounded text-white">Laravel</span>
-            <span class="text-xs bg-slate-800 px-2 py-1 rounded text-white">React</span>
-            <span class="text-xs bg-slate-800 px-2 py-1 rounded text-white">Tailwind</span>
+        <div class="group glass rounded-2xl overflow-hidden reveal flex flex-col">
+          <div class="relative h-48 overflow-hidden bg-zinc-800">
+            <img src="./images/corruption.png" alt="Screenshot of Assosa University Complaint app" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-zinc-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
           </div>
-          <div class="flex gap-3 justify-center">
-            <a href="#" class="px-3 py-2 border rounded text-sm btn">Live Demo</a>
-            <a href="#" class="px-3 py-2 border rounded text-sm btn">Source</a>
+          <div class="p-6 flex-1 flex flex-col">
+            <h3 class="text-xl font-bold mb-2 text-zinc-900 dark:text-white">University Complaint Portal</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-4 flex-1">
+              A secure, responsive web app built with Laravel and React to manage and submit university complaints efficiently.
+            </p>
+            <div class="flex flex-wrap gap-2 mb-6">
+              <span class="px-2 py-1 text-xs font-medium rounded-md bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">Laravel</span>
+              <span class="px-2 py-1 text-xs font-medium rounded-md bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">React</span>
+              <span class="px-2 py-1 text-xs font-medium rounded-md bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">Tailwind</span>
+            </div>
+            <div class="flex items-center gap-4 pt-4 border-t border-zinc-200 dark:border-zinc-800">
+              <a href="#" class="text-sm font-medium text-indigo-500 hover:text-indigo-400 flex items-center gap-1">
+                Live Demo <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+              </a>
+              <a href="#" class="text-sm font-medium text-zinc-500 hover:text-zinc-300 flex items-center gap-1">
+                Source <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+              </a>
+            </div>
           </div>
         </div>
       </div>
-      <div class="max-w-6xl mx-auto px-6 mt-12 text-center">
-        <p class="text-lg text-slate-600 dark:text-slate-300">
-          Want to see more projects? <br>
-          <a href="https://github.com/natinaelyosef" target="_blank" rel="noopener" class="inline-block mt-2 px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded btn font-semibold focus:outline-none focus:ring-2 focus:ring-blue-400 transition">
-            Check forward to my GitHub &rarr;
-          </a>
-        </p>
+      
+      <div class="text-center mt-16 reveal">
+        <a href="https://github.com/natinaelyosef" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 glass rounded-full font-medium hover:scale-105 transition text-zinc-900 dark:text-white">
+          Explore more on GitHub
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+        </a>
       </div>
     </div>
   </section>
 
   <!-- CONTACT -->
-  <section id="contact" class="min-h-screen flex items-center justify-center py-16">
-    <div class="w-full max-w-4xl mx-auto px-4 sm:px-6">
-      <header class="text-center mb-8">
-        <h2 class="text-3xl sm:text-4xl font-bold mb-2">Get In Touch</h2>
-        <p class="text-slate-400 text-base sm:text-lg">Have a project in mind or want to collaborate? I'd love to hear from you.</p>
-      </header>
-      <div class="bg-gray-100 dark:bg-panel glass rounded-2xl p-6 sm:p-10 ring-soft shadow-lg border border-gray-200 dark:border-white/10">
-        <form action="mailto:natinaelyosef0947@gmail.com" method="post" enctype="text/plain" aria-label="Contact form"
-          class="shadow-lg border border-gray-300 dark:border-white/10 rounded-2xl p-4 bg-white/80 dark:bg-panel/80">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <div>
-              <label for="name" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Full Name</label>
-              <input id="name" type="text" name="Name" placeholder="Your full name" required
-                class="w-full p-3 rounded-lg bg-gray-100 border border-gray-200 dark:bg-slate-800 dark:border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-400 transition" />
+  <section id="contact" class="py-24 px-6">
+    <div class="max-w-4xl mx-auto">
+      <div class="glass rounded-3xl p-8 md:p-12 reveal">
+        <div class="text-center mb-10">
+          <h2 class="font-display text-3xl md:text-4xl font-bold mb-4 text-zinc-900 dark:text-white">Let's Work Together</h2>
+          <p class="text-zinc-600 dark:text-zinc-400 max-w-xl mx-auto">
+            Have a project in mind or want to collaborate? I'd love to hear from you. Drop me a message and I'll get back to you as soon as possible.
+          </p>
+        </div>
+        
+        <form action="mailto:natinaelyosef0947@gmail.com" method="post" enctype="text/plain" class="space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-2">
+              <label for="name" class="text-sm font-medium text-zinc-700 dark:text-zinc-300">Full Name</label>
+              <input id="name" type="text" name="Name" required class="w-full px-4 py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-transparent focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 outline-none transition text-zinc-900 dark:text-white" placeholder="John Doe" />
             </div>
-            <div>
-              <label for="email" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Email</label>
-              <input id="email" type="email" name="Email" placeholder="Your email" required
-                class="w-full p-3 rounded-lg bg-gray-100 border border-gray-200 dark:bg-slate-800 dark:border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-400 transition" />
+            <div class="space-y-2">
+              <label for="email" class="text-sm font-medium text-zinc-700 dark:text-zinc-300">Email</label>
+              <input id="email" type="email" name="Email" required class="w-full px-4 py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-transparent focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 outline-none transition text-zinc-900 dark:text-white" placeholder="john@example.com" />
             </div>
           </div>
-          <div class="mb-6">
-            <label for="message" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Message</label>
-            <textarea id="message" name="Message" placeholder="Tell me about your project..." required
-              class="w-full p-3 rounded-lg bg-gray-100 border border-gray-200 dark:bg-slate-800 dark:border-white/20 h-36 sm:h-40 resize-none focus:outline-none focus:ring-2 focus:ring-blue-400 transition"></textarea>
+          <div class="space-y-2">
+            <label for="message" class="text-sm font-medium text-zinc-700 dark:text-zinc-300">Message</label>
+            <textarea id="message" name="Message" required rows="5" class="w-full px-4 py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-transparent focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 outline-none transition resize-none text-zinc-900 dark:text-white" placeholder="Tell me about your project..."></textarea>
           </div>
-          <div class="flex justify-center">
-            <button type="submit"
-              class="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg btn text-white font-semibold shadow focus:outline-none focus:ring-2 focus:ring-blue-400 transition">
-              <span class="inline-flex items-center gap-2">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                  <path d="M4 4v16h16V4H4zm2 2h12v12H6V6zm2 2v8h8V8H8z" />
-                </svg>
-                Send message
-              </span>
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4">
+            <a href="mailto:natyyosefadisu@gmail.com" class="text-sm text-zinc-500 hover:text-indigo-500 transition">
+              Or email me directly: natyyosefadisu@gmail.com
+            </a>
+            <button type="submit" class="w-full sm:w-auto px-8 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-xl shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40 transition flex items-center justify-center gap-2">
+              Send Message
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
             </button>
           </div>
         </form>
-        <div class="mt-8 text-slate-400 text-center text-sm">
-          Or email me: <a class="text-sky-400 underline hover:text-sky-300 transition"
-            href="mailto:natyyosefadisu@gmail.com">natyyosefadisu@gmail.com</a><br />
-          <a href="https://drive.google.com/file/d/1EAUxbjdbjmZfxE7jORCBQc0Jkyvh6g39/view?usp=drive_link"
-            target="_blank"
-            class="mt-2 inline-block px-4 py-2 border border-blue-600 rounded-lg btn text-blue-600 bg-white hover:bg-blue-50 dark:bg-transparent dark:text-sky-400 focus:outline-none focus:ring-2 focus:ring-blue-400 transition">
-            Download CV
-          </a>
-        </div>
       </div>
     </div>
   </section>
 
   <!-- FOOTER -->
-  <footer class="py-8 border-t border-gray-300 dark:border-white/4 text-center text-sm text-slate-400" role="contentinfo">
-    © 2025 Natinael Yosef • Built with ❤️ • 
-    <a href="https://github.com/natinaelyosef" class="underline focus:outline-none focus:ring-2 focus:ring-blue-400" target="_blank" rel="noopener" aria-label="GitHub Profile">GitHub</a>
+  <footer class="py-12 border-t border-zinc-200 dark:border-zinc-800 text-center text-sm text-zinc-500" role="contentinfo">
+    <p>© 2025 Natinael Yosef • Built with ❤️ & Tailwind CSS</p>
   </footer>
 
   <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
   <script>
     // Typed effect
     (function(){
-      const words = ['Front-end Developer','Back-end Developer', 'UX/UI Designer', 'Full-stack Developer',
-      'Problem Solver'];
+      const words = ['Front-end Interfaces','Back-end APIs', 'UX/UI Designs', 'Full-stack Apps', 'Solutions'];
       let idx = 0, i = 0, forward = true;
       const typedEl = document.getElementById('typed');
 
@@ -400,7 +529,7 @@
           typedEl.textContent = word.slice(0, ++i);
           if(i === word.length){
             forward = false;
-            setTimeout(tick, 1200);
+            setTimeout(tick, 1500);
             return;
           }
         } else {
@@ -415,81 +544,60 @@
       tick();
     })();
 
-    // Initialize Swiper carousel
-    new Swiper('.mySwiper', {
-      loop: true,
-      slidesPerView: 1,
-      effect: 'fade',
-      fadeEffect: { crossFade: true },
-      autoplay: { delay: 2500, disableOnInteraction: false },
-      pagination: { el: '.swiper-pagination', clickable: true },
-      keyboard: { enabled: true }
-    });
-
-    const themeToggleDesktop = document.getElementById('theme-toggle');
-    const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+    // Theme Toggle
+    const themeToggle = document.getElementById('theme-toggle');
     const rootEl = document.documentElement;
 
     function setTheme(isDark) {
       if (isDark) {
         rootEl.classList.add('dark');
         localStorage.setItem('theme', 'dark');
-        themeToggleDesktop.textContent = '☀️';
-        themeToggleMobile.textContent = '☀️';
       } else {
         rootEl.classList.remove('dark');
         localStorage.setItem('theme', 'light');
-        themeToggleDesktop.textContent = '🌙';
-        themeToggleMobile.textContent = '🌙';
       }
     }
 
-    themeToggleDesktop.addEventListener('click', () => setTheme(!rootEl.classList.contains('dark')));
-    themeToggleMobile.addEventListener('click', () => setTheme(!rootEl.classList.contains('dark')));
+    themeToggle.addEventListener('click', () => setTheme(!rootEl.classList.contains('dark')));
 
-    // Load theme from localStorage or system preference
     (() => {
       const savedTheme = localStorage.getItem('theme');
       if (savedTheme === 'dark') setTheme(true);
       else if (savedTheme === 'light') setTheme(false);
-      else {
-        // System preference fallback
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        setTheme(prefersDark);
-      }
+      else setTheme(window.matchMedia('(prefers-color-scheme: dark)').matches);
     })();
 
     // Mobile Nav Toggle
     const navToggle = document.getElementById('nav-toggle');
-    const mobileNav = document.getElementById('mobile-nav');
+    const mobileMenu = document.getElementById('mobile-menu');
     const navClose = document.getElementById('nav-close');
 
     function openMobileNav() {
-      mobileNav.classList.remove('hidden');
-      mobileNav.setAttribute('aria-hidden', 'false');
+      mobileMenu.classList.remove('hidden');
+      mobileMenu.classList.add('flex');
       document.body.style.overflow = 'hidden';
-      navToggle.setAttribute('aria-expanded', 'true');
-      navClose.focus();
     }
 
     function closeMobileNav() {
-      mobileNav.classList.add('hidden');
-      mobileNav.setAttribute('aria-hidden', 'true');
+      mobileMenu.classList.add('hidden');
+      mobileMenu.classList.remove('flex');
       document.body.style.overflow = '';
-      navToggle.setAttribute('aria-expanded', 'false');
-      navToggle.focus();
     }
 
     navToggle.addEventListener('click', openMobileNav);
     navClose.addEventListener('click', closeMobileNav);
-
-    // Close mobile nav clicking outside menu content
-    mobileNav.addEventListener('click', e => {
-      if (e.target === mobileNav) closeMobileNav();
-    });
-
-    // Make closeMobileNav accessible globally
     window.closeMobileNav = closeMobileNav;
+
+    // Scroll Reveal Animation
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
   </script>
 </body>
 </html>
